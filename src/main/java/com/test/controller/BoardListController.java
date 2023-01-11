@@ -45,7 +45,7 @@ public class BoardListController implements SubController {
 				int pageno = Integer.parseInt(params.get("pageno")[0]);
 				criteria = new Criteria(pageno,10);
 			}
-			boolean result=service.GetBoardList(criteria,req);
+			boolean result=service.GetBoardList(criteria,req,resp);
 
 			//4 View
 			if(result) {		

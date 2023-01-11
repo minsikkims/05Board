@@ -138,15 +138,15 @@ section {
 				</tr>
 			</thead>
 			<tbody>
+			
 			<c:forEach var="dto" items="${list}" varStatus="status" >
 			 	<tr>
 					<td>${dto.no}</td>
-					<td>${dto.title }</td>
+					<td><a href="${pageContext.request.contextPath}/board/read.do?bno=${dto.no}&pageno=${pagedto.criteria.pageno}">${dto.title}</a> </td>
 					<td>${dto.email }</td>
 					<td>${dto.regdate }</td>
 					<td>${dto.count }</td>
-				</tr>
-				
+				</tr>	
 			</c:forEach>
 				
 			</tbody>
