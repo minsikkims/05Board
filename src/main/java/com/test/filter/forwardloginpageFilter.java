@@ -19,29 +19,29 @@ public class forwardloginpageFilter implements Filter{
 			throws IOException, ServletException {
 
 		//Request요청 전 처리
-		System.out.println("[FF] ForwardLoginFilter Start!");
+		System.out.println("[FF] ForwardLoginFilter Start!");	//확인
 		
-		HttpServletRequest request = (HttpServletRequest)req;
-		HttpServletResponse response = (HttpServletResponse)resp;
+		HttpServletRequest request = (HttpServletRequest)req;	//http형태로 다운캐스팅
+		HttpServletResponse response = (HttpServletResponse)resp;	//http형태로 다운캐스팅
 		
 		//로그인이 된 상태인지 유무 확인
 		HttpSession session = request.getSession(true);	 //true(기본) : 세션객체 없으면 새로 생성
 														 //false : 세션객체 없으면 null
 		
-		if(session.getAttribute("authdto")==null) //no login
+		if(session.getAttribute("authdto")==null) //null이면 no login
 		{
 			
-			if(request.getRequestURI().contains("/member/join.do")) {
-				req.getRequestDispatcher("/member/join.do").forward(request, response);
+			if(request.getRequestURI().contains("/member/join.do")) {	
+				req.getRequestDispatcher("/member/join.do").forward(request, response);	//포워딩
 				return ;
 			}
 			
-			String msg="로그인이 필요한 싸이트 입니다.";
+			String msg="<i class='bi bi-exclamation-triangle' style='color:orange;font-size:1rem'></i> 로그인이 필요한 페이지 입니다.";	//메시지 도출
 			req.setAttribute("msg",msg);
 			req.getRequestDispatcher("/auth/login.do").forward(request, response);
 			return ;
 		}
-		else //로그인 한상태
+		else //로그인을 한상태
 		{
 			
 			if(!request.getRequestURI().contains(".do")) {
@@ -50,7 +50,7 @@ public class forwardloginpageFilter implements Filter{
 			}
 		}
 		
-		//로그인한 상태
+		//로그인한 상태(web.xml에 filter등록)
 		chain.doFilter(req, resp);
 		
 		

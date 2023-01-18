@@ -34,7 +34,7 @@ section{height:600px;width : 95vw;margin-top:10px; }
 	<nav>
 		<ul>
 			<li><a href="javascript:void(0)">회사소개</a></li>
-			<li><a href="${pageContext.request.contextPath}/notice/list.do">공지사항</a></li>
+			<li><a href="${pageContext.request.contextPath}/notice/list.do">공지사항</a></li>	<!-- 경로지정 -->
 			<li><a href="${pageContext.request.contextPath}/board/list.do">자유게시판</a></li>
 			<li><a href="javascript:void(0)">개인정보수정</a></li>
 			<li><a href="${pageContext.request.contextPath}/auth/logout.do">로그아웃</a></li>

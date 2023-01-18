@@ -9,8 +9,10 @@ public class MemberDto {
 	private String addr2;
 	private String grade;
 	
+	//default 생성자
 	public MemberDto() {}
 
+	//getter and setter
 	public String getEmail() {
 		return email;
 	}
@@ -67,6 +69,7 @@ public class MemberDto {
 		this.grade = grade;
 	}
 
+	//toSting
 	@Override
 	public String toString() {
 		return "MemberDto [email=" + email + ", pwd=" + pwd + ", phone=" + phone + ", zipcode=" + zipcode + ", addr1="
@@ -74,9 +77,9 @@ public class MemberDto {
 	}
 	
 	
-	//default 생성자
-	//getter and setter
 	
-	//toSting
+	
+	
+	
 	
 }

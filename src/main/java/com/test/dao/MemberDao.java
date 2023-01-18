@@ -31,7 +31,7 @@ public class MemberDao {
 			//2. DataSource 자원 찾기
 			ds = (DataSource) ic.lookup("java:comp/env/jdbc/mysql");
 			
-			System.out.println("DS : " + ds);
+			System.out.println("DS : " + ds);	//DataSource 자원 값 확인
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -47,28 +47,28 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result=0;
 		try {
-			conn = ds.getConnection();
-			pstmt=conn.prepareStatement("insert into tbl_member values(?,?,?,?,?,?,?)");
+			conn = ds.getConnection();	//ds를 받아오게함
+			pstmt=conn.prepareStatement("insert into tbl_member values(?,?,?,?,?,?,?)");	//DB에 있는 tbl_member table에 값 넣기
 			pstmt.setString(1, dto.getEmail());
 			pstmt.setString(2, dto.getPwd());
 			pstmt.setString(3, dto.getPhone());
 			pstmt.setString(4, dto.getZipcode());
 			pstmt.setString(5, dto.getAddr1());
 			pstmt.setString(6, dto.getAddr2());
-			pstmt.setString(7, "0");	//Grade
+			pstmt.setString(7, "0");	//Grade(권한)
 			
-			result=pstmt.executeUpdate();
+			result=pstmt.executeUpdate(); //result로 결과 받기
 				
 		
 		}catch(Exception e) {
 			e.printStackTrace();
 		
-		}finally {
+		}finally {	//만들었던 자원 제거과정
 			try {pstmt.close();}catch(Exception e) {}
 			try {conn.close();}catch(Exception e) {}
 		}
 		
-		return result;
+		return result;	//result 반환
 	}
 	
 	//SELECT
@@ -81,12 +81,12 @@ public class MemberDao {
 
 		try {
 			conn = ds.getConnection();
-			pstmt=conn.prepareStatement("select * from tbl_member where email=?");
+			pstmt=conn.prepareStatement("select * from tbl_member where email=?");	//email 정보 확인
 			pstmt.setString(1, email);
-			rs=pstmt.executeQuery();
+			rs=pstmt.executeQuery();	//쿼리 실행
 			if(rs!=null)
 			{
-				rs.next();
+				rs.next();	//이동
 				dto = new MemberDto();
 				dto.setEmail(rs.getString(1));
 				dto.setPwd(rs.getString(2));
@@ -100,13 +100,13 @@ public class MemberDao {
 			e.printStackTrace();
 			return null;
 		
-		}finally {
+		}finally {	//사용된 자원 삭제
 			try {rs.close();}catch(Exception e) {}
 			try {pstmt.close();}catch(Exception e) {}
 			try {conn.close();}catch(Exception e) {}
 		}
 		
-		return dto;
+		return dto;	//dto 반환
 	}
 	
 	

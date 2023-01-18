@@ -7,7 +7,7 @@ import com.test.dto.MemberDto;
 
 public class MemberService {
 	
-	MemberDao dao =MemberDao.getInstance();
+	MemberDao dao =MemberDao.getInstance();	//instance 받아오기
 	BCrypt bc = new BCrypt();
 	
 	//싱글톤
@@ -21,7 +21,7 @@ public class MemberService {
 	//싱글톤
 	
 	//회원가입
-	public boolean memberJoin(MemberDto dto) {
+	public boolean memberJoin(MemberDto dto) {	//controller로 전달
 		boolean flag=false;
 		//pwd를 해시화하여 저장 작업
 		dto.setPwd(bc.hashpw(dto.getPwd() , bc.gensalt() ) );

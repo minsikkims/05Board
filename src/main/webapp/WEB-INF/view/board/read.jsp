@@ -21,6 +21,11 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
+<!-- JQ -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+
+
 <style>
 body {
 	padding: 10px;
@@ -159,7 +164,7 @@ section {
 					<td colspan=4>
 						<button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal">첨부파일</button>
 						<a class="btn btn-primary" href="${pageContext.request.contextPath}/board/list.do?pageno=${pagedto.criteria.pageno}">이전으로</a>
-						<button class="btn btn-primary">수정하기</button>
+						<a class="btn btn-primary" href="${pageContext.request.contextPath}/board/update.do?pageno=${pagedto.criteria.pageno}">수정하기</a>
 						<button class="btn btn-primary">삭제하기</button>
 					</td>
 <!-- 					<td></td>
@@ -185,14 +190,14 @@ section {
 			      
 	 			<c:forEach var="i" begin="0" step="1" end="${fn:length(filenames)-1}" >
 					
-						<a href="${pageContext.request.contextPath}/board/download.do?dirpath=${boarddto.dirpath}&filename=${filenames[i]}">${filenames[i]} (${filesizes[i]}Byte)</a><br>
+						<a href="${pageContext.request.contextPath}/board/download.do?uuid=${boarddto.dirpath}&filename=${filenames[i]}">${filenames[i]} (${filesizes[i]}Byte)</a><br>
 					
 				</c:forEach>   	     
 			    
 
 		      </div>
 		      <div class="modal-footer">
-		       	<button type="button" class="btn btn-primary">ZIP 받기</button>
+		       	<a type="button" class="btn btn-primary" href="${pageContext.request.contextPath}/board/downloadzip.do?uuid=${boarddto.dirpath}">ZIP 받기</a>
 		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
 		 
 		      </div>
@@ -201,10 +206,95 @@ section {
 		  
 		</div>
 	
+	
+		<!-- REPLY -->
+		<style>
+		/* 스크롤바 표시는 x 기능은 o */
+			*::-webkit-scrollbar{
+			  display:none; /* Chrome, Safari, Opera*/
+			}
+		</style>
+		
+		<div class='reply-header' style="margin-top:20px;font-size:1.5rem;">
+			<span>댓글</span>&nbsp;&nbsp;<span id=replycnt></span>
+		</div>
+		<div class='reply-input' style="position:relative;width:75%;">
+			<form action="" style="display:flex;" onsubmit="return false">	 
+				<input type="text" id="comment"  style="width:100%;outline:none;border:0px;" placeholder="댓글입력.." />
+				<button class="btn btn-primary" onclick="postreply('${pageContext.request.contextPath}')">전송</button>
+			</form>
+		</div>
+		<div class='reply-body w-78' style="height:300px; overflow:auto;">
+			<!--
+
+			 -->
+		</div>
+
 	</section>
-
-
-
+	
+	<script defer>
+		const postreply=function(path){
+			
+			$.ajax({
+				url: path+"/board/replypost.do",
+				type : "GET",
+				dataType : 'html',
+				data :{"bno":${boarddto.no},"comment":$('#comment').val() },
+				success:function(result){
+					//alert(result);
+					$('#comment').val('');
+					
+					$('.reply-body *').remove();
+					showreply(path);
+				},
+				error:function(){
+					alert('error');
+				}
+			})
+			
+		}
+		
+		const showreply=function(path){
+			
+			$.ajax({
+				url: path+"/board/replylist.do",
+				type : "GET",
+				dataType : 'html',
+				data :{"bno":${boarddto.no} },
+				success:function(result){
+					 $('.reply-body').html(result);
+					 replycnt(path);
+				},
+				error:function(){
+					alert('error');
+				}
+			})
+			
+		}
+		showreply('${pageContext.request.contextPath}');
+		
+		
+		const replycnt=function(path){
+			
+			$.ajax({
+				url: path+"/board/replycnt.do",
+				type : "GET",
+				dataType : 'html',
+				data :{"bno":${boarddto.no} },
+				success:function(result){
+					 //alert(result);
+					 $('#replycnt').html(result);
+				},
+				error:function(){
+					alert('error');
+				}
+			})
+			
+			
+		}
+		
+	</script>
+	
 
 
 </body>
